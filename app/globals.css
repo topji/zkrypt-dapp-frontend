@@ -108,3 +108,16 @@
 .dark .text-gray-800 {
   @apply text-gray-200;
 }
+
+@keyframes flip {
+  0% {
+    transform: perspective(400px) rotateY(0);
+  }
+  100% {
+    transform: perspective(400px) rotateY(360deg);
+  }
+}
+
+.animate-flip {
+  animation: flip 1s ease-in-out;
+}

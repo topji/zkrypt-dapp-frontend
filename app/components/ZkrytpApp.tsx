@@ -154,10 +154,12 @@ const ZkryptApp: React.FC = () => {
             <MessageSquare className="h-5 w-5 fill-current" />
             <span className="text-xs mt-1 font-semibold">Chat</span>
           </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col items-center text-gray-500">
-            <Award className="h-5 w-5" />
-            <span className="text-xs mt-1">Points: {userProfile?.points || 0}</span>
-          </Button>
+          <Link href="/points">
+            <Button variant="ghost" size="sm" className="flex flex-col items-center text-gray-500 dark:text-gray-400">
+              <Award className="h-5 w-5" />
+              <span className="text-xs mt-1">Points</span>
+            </Button>
+          </Link>
         </div>
       </Card>
     </div>
