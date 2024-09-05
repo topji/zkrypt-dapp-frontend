@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader } from "@/app/components/ui/card";
 import { Button } from "@/app/components/ui/button";
-import { ChevronLeft, Star, MessageSquare, CheckCircle, User, ArrowUp, Lock } from 'lucide-react';
+import { ChevronLeft, Award, Star, MessageSquare, CheckCircle, User, ArrowUp, Lock } from 'lucide-react';
 import Link from 'next/link';
 import { ThemeToggle } from '@/app/components/ui/ThemeToggle';
 import Image from 'next/image';
@@ -206,6 +206,7 @@ const PointsScreen: React.FC = () => {
                         </>
                       )}
                     </Button>
+                    <p className="text-sm  text-gray-500 dark:text-gray-400">*Feed your Rizzy to keep it alive <br />*Level up every 1000 berries <br />*Complete tasks or bet available berries to earn more</p>
                   </div>
                 </CardContent>
               </Card>
@@ -235,7 +236,7 @@ const PointsScreen: React.FC = () => {
                 <Button 
                   onClick={handleClaimBerries} 
                   disabled={claimableBerries === 0}
-                  className="w-full py-6 text-lg font-semibold border-4 border-purple-600 text-purple-600 hover:bg-purple-100 dark:hover:bg-purple-900 disabled:border-gray-300 disabled:text-gray-300"
+                  className="w-full py-6 text-lg font-semibold border-4 border-purple-600 text-purple-600  disabled:border-gray-300 disabled:text-gray-300"
                 >
                   Claim {claimableBerries} Berries
                 </Button>
@@ -310,7 +311,7 @@ const PointsScreen: React.FC = () => {
               </Button>
             </Link>
             <Button variant="ghost" size="sm" className="flex flex-col items-center text-purple-600 dark:text-purple-400">
-              <Star className="h-5 w-5" />
+              <Award className="h-5 w-5" />
               <span className="text-xs mt-1 font-semibold">Points</span>
             </Button>
           </div>

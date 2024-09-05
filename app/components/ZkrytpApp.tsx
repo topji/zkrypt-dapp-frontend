@@ -96,9 +96,9 @@ const ZkryptApp: React.FC = () => {
     }
   };
 
-  if (!isMobile) {
-    return <DesktopMessage />;
-  }
+  // if (!isMobile) {
+  //   return <DesktopMessage />;
+  // }
 
   return (
     <div className="flex flex-col h-screen w-screen bg-white overflow-hidden">
@@ -108,7 +108,16 @@ const ZkryptApp: React.FC = () => {
             <ChevronLeft className="h-6 w-6" />
           </Button>
           <div className="text-2xl font-bold text-purple-600">Zkrypt</div>
-          <div className="w-8"></div>
+          <div className="w-8 relative">
+            <select className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+              <option>Zkrypt-1.0</option>
+              <option>GPT3.5</option>
+              <option>GPT4-mini</option>
+              <option>Claude-sonnet3.5</option>
+              <option>Gemini-1.5-flash</option>
+              <option>Pro mode (beta)</option>
+            </select>
+          </div>
         </CardHeader>
         <CardContent className="flex-grow overflow-hidden p-0">
           <ScrollArea className="h-full">
