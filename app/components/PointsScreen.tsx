@@ -40,8 +40,10 @@ const PointsScreen: React.FC = () => {
   const [usedBerries, setUsedBerries] = useState(200);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [berriesForNextLevel, setBerriesForNextLevel] = useState(300);
-  const [activeSection, setActiveSection] = useState<'raccoon' | 'tasks' | 'activity'>('raccoon');
+  const [activeSection, setActiveSection] = useState<'raccoon' | 'tasks' | 'earnMore'>('raccoon');
   const [claimableBerries, setClaimableBerries] = useState(100); // New state for claimable berries
+  const [betAmount, setBetAmount] = useState<number>(0);
+  const [prediction, setPrediction] = useState<'heads' | 'tails' | null>(null);
 
   const availableBerries = earnedBerries - usedBerries;
 
@@ -69,6 +71,21 @@ const PointsScreen: React.FC = () => {
     setEarnedBerries(earnedBerries + claimableBerries);
     setClaimableBerries(0); // Reset claimable berries to 0 after claiming
     // You might want to add logic here to regenerate claimable berries over time
+  };
+
+  const handleBet = () => {
+    if (betAmount <= 0 || !prediction || availableBerries < betAmount) return;
+
+    const result: 'heads' | 'tails' = Math.random() < 0.5 ? 'heads' : 'tails';
+    if (result === prediction) {
+      setEarnedBerries(earnedBerries + betAmount);
+      alert(`Congratulations! You won ${betAmount} berries!`);
+    } else {
+      setUsedBerries(usedBerries + betAmount);
+      alert(`Sorry, you lost ${betAmount} berries. Better luck next time!`);
+    }
+    setBetAmount(0);
+    setPrediction(null);
   };
 
   const progressPercentage = (availableBerries / berriesForNextLevel) * 100;
@@ -132,10 +149,10 @@ const PointsScreen: React.FC = () => {
               </Button>
               <Button
                 variant="ghost"
-                className={`pb-2 ${activeSection === 'activity' ? 'border-b-2 border-purple-600' : ''}`}
-                onClick={() => setActiveSection('activity')}
+                className={`pb-2 ${activeSection === 'earnMore' ? 'border-b-2 border-purple-600' : ''}`}
+                onClick={() => setActiveSection('earnMore')}
               >
-                Activity
+                Earn More
               </Button>
             </div>
 
@@ -225,20 +242,53 @@ const PointsScreen: React.FC = () => {
               </div>
             )}
 
-            {/* Activity Section */}
-            {activeSection === 'activity' && (
+            {/* Earn More Section (previously Activity) */}
+            {activeSection === 'earnMore' && (
               <Card className="bg-white dark:bg-gray-800">
                 <CardContent className="p-4">
-                  <ul className="space-y-2">
-                    {dummyActivities.map((activity) => (
-                      <li key={activity.id} className="flex items-center justify-between">
-                        <span>{activity.description}</span>
-                        <span className={`text-sm font-semibold ${activity.type === 'earned' ? 'text-green-500' : 'text-red-500'}`}>
-                          {activity.type === 'earned' ? '+' : '-'}{activity.points} Berries
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  <h3 className="text-lg font-semibold mb-4">Earn More Berries</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="betAmount" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Bet Amount (Berries)
+                      </label>
+                      <input
+                        type="number"
+                        id="betAmount"
+                        value={betAmount}
+                        onChange={(e) => setBetAmount(Math.max(0, parseInt(e.target.value) || 0))}
+                        className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+                        min="0"
+                        max={availableBerries}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Prediction
+                      </label>
+                      <div className="flex space-x-2">
+                        <Button
+                          onClick={() => setPrediction('heads')}
+                          className={`flex-1 ${prediction === 'heads' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200'}`}
+                        >
+                          Heads
+                        </Button>
+                        <Button
+                          onClick={() => setPrediction('tails')}
+                          className={`flex-1 ${prediction === 'tails' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200'}`}
+                        >
+                          Tails
+                        </Button>
+                      </div>
+                    </div>
+                    <Button
+                      onClick={handleBet}
+                      disabled={betAmount <= 0 || !prediction || availableBerries < betAmount}
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white disabled:bg-gray-300 disabled:text-gray-500"
+                    >
+                      Try My Luck
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             )}
